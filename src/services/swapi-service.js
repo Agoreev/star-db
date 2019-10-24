@@ -26,9 +26,9 @@ export default class SwapiService {
     return this.getResource(`/people/${id}`);
   }
   getPlanet(id) {
-    return this.getResource(`/planet/${id}`);
+    return this.getResource(`/planets/${id}`);
   }
   getStarship(id) {
-    return this.getResource(`/starship/${id}`);
+    return this.getResource(`/starships/${id}`);
   }
 }

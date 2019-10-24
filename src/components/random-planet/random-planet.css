@@ -1,5 +1,9 @@
 .random-planet {
   display: flex;
+  background: #333;
+  border-radius: 3px;
+  padding: 1.5rem 2rem;
+  margin: 2rem 0;
 }
 .random-planet .props-list {
   list-style: none;
