@@ -5,38 +5,73 @@ import Spinner from "../spinner";
 
 export default class PersonDetails extends React.Component {
   state = {
-    person: null
+    person: null,
+    loading: true
   };
   swapiService = new SwapiService();
 
-  componentDidMount() {}
-  componentDidUpdate() {
-    const personId = this.props.personId ? this.props.personId : 1;
+  updatePerson() {
+    this.setState({
+      loading: true
+    });
+    const { personId } = this.props;
+    if (!personId) {
+      return;
+    }
     this.swapiService.getPerson(personId).then(person =>
       this.setState({
-        person
+        person,
+        loading: false
       })
     );
   }
 
+  componentDidMount() {
+    this.updatePerson();
+  }
+  componentDidUpdate(prevProps) {
+    if (this.props.personId !== prevProps.personId) {
+      this.updatePerson();
+    }
+  }
+
   render() {
-    const { person } = this.state;
+    const { person, loading } = this.state;
+
     if (!person) {
-      return <Spinner />;
+      return (
+        <div className="person-details d-flex">
+          <span>Select a person</span>
+        </div>
+      );
     }
 
-    return (
-      <div className="person-details d-flex">
-        <img className="person-img" alt="person"></img>
-        <div className="person-description">
-          <h4>{person.name}</h4>
-          <ul className="props-list">
-            <li>Gender: {person.gender}</li>
-            <li>Birth year: {person.birthYear}</li>
-            <li>Eye color: {person.eyeColor}</li>
-          </ul>
-        </div>
-      </div>
+    const content = loading ? (
+      <Spinner />
+    ) : (
+      <PersonView person={person}></PersonView>
     );
+
+    return <div className="person-details d-flex">{content}</div>;
   }
 }
+
+const PersonView = ({ person }) => {
+  return (
+    <React.Fragment>
+      <img
+        className="person-img"
+        alt="person"
+        src={`https://starwars-visualguide.com/assets/img/characters/${person.id}.jpg`}
+      ></img>
+      <div className="person-description">
+        <h4>{person.name}</h4>
+        <ul className="props-list">
+          <li>Gender: {person.gender}</li>
+          <li>Birth year: {person.birthYear}</li>
+          <li>Eye color: {person.eyeColor}</li>
+        </ul>
+      </div>
+    </React.Fragment>
+  );
+};
