@@ -5,8 +5,11 @@ import RandomPlanet from "../random-planet";
 import "./app.css";
 import PeoplePage from "../people-page";
 import ErrorIndicator from "../error-indicator";
+import ItemList from "../item-list";
+import SwapiService from "../../services/swapi-service";
 
 export default class App extends React.Component {
+  swapiService = new SwapiService();
   state = {
     hasError: false
   };
