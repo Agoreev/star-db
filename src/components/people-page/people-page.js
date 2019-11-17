@@ -1,15 +1,21 @@
 import React from "react";
 import "./people-page.css";
-import ItemList from "../item-list";
-import PersonDetails from "../person-details";
+import { Record } from "../item-details";
 import SwapiService from "../../services/swapi-service";
 import Row from "../row";
 import ErrorBoundry from "../error-boundry";
+import {
+  PersonList,
+  PersonDetails,
+  StarshipList,
+  StarshipDetails
+} from "../sw-components";
 
 export default class PeoplePage extends React.Component {
   swapiService = new SwapiService();
   state = {
-    selectedPerson: null
+    selectedPerson: null,
+    selectedStarship: null
   };
 
   onPersonSelected = id => {
@@ -17,21 +23,46 @@ export default class PeoplePage extends React.Component {
       selectedPerson: id
     });
   };
+  onStarshipSelected = id => {
+    this.setState({
+      selectedStarship: id
+    });
+  };
 
   render() {
     const itemList = (
-      <ItemList
-        onItemSelected={this.onPersonSelected}
-        getData={this.swapiService.getAllPeople}
-      >
+      <PersonList onItemSelected={this.onPersonSelected}>
         {i => `${i.name} (${i.birthYear})`}
-      </ItemList>
+      </PersonList>
     );
-    const personDetails = (
+    const itemDetails = (
       <ErrorBoundry>
-        <PersonDetails personId={this.state.selectedPerson} />
+        <PersonDetails itemId={this.state.selectedPerson}>
+          <Record field="gender" label="Gender" />
+          <Record field="eyeColor" label="Eye color" />
+          <Record field="birthYear" label="Birth year" />
+        </PersonDetails>
       </ErrorBoundry>
     );
-    return <Row left={itemList} right={personDetails} />;
+    const StarshipsList = (
+      <StarshipList onItemSelected={this.onStarshipSelected}>
+        {i => `${i.name} (${i.model})`}
+      </StarshipList>
+    );
+    const StarshipsDetials = (
+      <ErrorBoundry>
+        <StarshipDetails itemId={this.state.selectedStarship}>
+          <Record field="model" label="Model" />
+          <Record field="manufacturer" label="Manufacturer" />
+          <Record field="costInCredits" label="Cost in credits" />
+        </StarshipDetails>
+      </ErrorBoundry>
+    );
+    return (
+      <React.Fragment>
+        <Row left={itemList} right={itemDetails} />
+        <Row left={StarshipsList} right={StarshipsDetials} />
+      </React.Fragment>
+    );
   }
 }
