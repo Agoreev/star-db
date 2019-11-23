@@ -6,26 +6,40 @@ import "./app.css";
 import PeoplePage from "../people-page";
 import ErrorIndicator from "../error-indicator";
 import SwapiService from "../../services/swapi-service";
+import DummySwapiService from "../../services/dummy-swapi-service";
+import { SwapiServiceProvider } from "../swapi-service-context";
 
 export default class App extends React.Component {
-  swapiService = new SwapiService();
   state = {
-    hasError: false
+    hasError: false,
+    swapiService: new SwapiService()
   };
   componentDidCatch() {
     this.setState({
       hasError: true
     });
   }
+  onServiceChange = () => {
+    this.setState(({ swapiService }) => {
+      const Service =
+        swapiService instanceof SwapiService ? DummySwapiService : SwapiService;
+      console.log("switched to", Service.name);
+      return {
+        swapiService: new Service()
+      };
+    });
+  };
   render() {
     if (this.state.hasError) {
       return <ErrorIndicator />;
     }
     return (
       <div className="container">
-        <Header />
-        <RandomPlanet />
-        <PeoplePage />
+        <SwapiServiceProvider value={this.state.swapiService}>
+          <Header onServiceChange={this.onServiceChange} />
+          <RandomPlanet />
+          <PeoplePage />
+        </SwapiServiceProvider>
       </div>
     );
   }

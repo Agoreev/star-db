@@ -31,9 +31,7 @@ export default class PeoplePage extends React.Component {
 
   render() {
     const itemList = (
-      <PersonList onItemSelected={this.onPersonSelected}>
-        {i => `${i.name} (${i.birthYear})`}
-      </PersonList>
+      <PersonList onItemSelected={this.onPersonSelected}></PersonList>
     );
     const itemDetails = (
       <ErrorBoundry>
@@ -45,9 +43,7 @@ export default class PeoplePage extends React.Component {
       </ErrorBoundry>
     );
     const StarshipsList = (
-      <StarshipList onItemSelected={this.onStarshipSelected}>
-        {i => `${i.name} (${i.model})`}
-      </StarshipList>
+      <StarshipList onItemSelected={this.onStarshipSelected}></StarshipList>
     );
     const StarshipsDetials = (
       <ErrorBoundry>
