@@ -5,18 +5,19 @@ const withDetails = View => {
   return class extends React.Component {
     state = {
       item: null,
-      loading: true,
+      loading: false,
       image: null
     };
 
     updateItem() {
-      this.setState({
-        loading: true
-      });
       const { itemId } = this.props;
       if (!itemId) {
         return;
       }
+      this.setState({
+        loading: true
+      });
+
       this.props.getItem(itemId).then(item =>
         this.setState({
           item,
@@ -41,18 +42,19 @@ const withDetails = View => {
 
     render() {
       const { item, image, loading } = this.state;
-      if (!item) {
-        return (
-          <div className="item-details d-flex">
-            <span>Select an item</span>
-          </div>
-        );
-      }
+
+      const noItemSelected = (
+        <div className="item-details d-flex">
+          <span>Select an item</span>
+        </div>
+      );
 
       const content = loading ? (
         <Spinner />
-      ) : (
+      ) : item ? (
         <View {...this.props} item={item} image={image} />
+      ) : (
+        noItemSelected
       );
       return content;
     }
