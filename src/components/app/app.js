@@ -1,9 +1,8 @@
 import React from "react";
 import Header from "../header";
 import RandomPlanet from "../random-planet";
-
 import "./app.css";
-import PeoplePage from "../people-page";
+import { PeoplePage, PlanetsPage, StarshipsPage } from "../pages";
 import ErrorIndicator from "../error-indicator";
 import SwapiService from "../../services/swapi-service";
 import DummySwapiService from "../../services/dummy-swapi-service";
@@ -39,6 +38,8 @@ export default class App extends React.Component {
           <Header onServiceChange={this.onServiceChange} />
           <RandomPlanet />
           <PeoplePage />
+          <PlanetsPage />
+          <StarshipsPage />
         </SwapiServiceProvider>
       </div>
     );
