@@ -4,7 +4,7 @@ import Row from "../row";
 import ErrorBoundry from "../error-boundry";
 import { PlanetList, PlanetDetails } from "../sw-components";
 
-export default class PeoplePage extends React.Component {
+export default class PlanetsPage extends React.Component {
   state = {
     selectedPlanet: null
   };

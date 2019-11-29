@@ -19,9 +19,7 @@
   align-self: center;
   margin: 0 auto;
 }
-.item-details {
-  margin-left: 10px;
-}
+
 .item-details li {
   padding: 5px 0;
   border-bottom: 1px solid #555;
